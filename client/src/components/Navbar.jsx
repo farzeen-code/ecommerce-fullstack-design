@@ -1,12 +1,18 @@
 import React from 'react';
+import logo from '../assets/logo.svg';
+import { Link } from "react-router-dom";
+
+
 
 const Navbar = () => {
   return (
     <nav className="flex items-center justify-between px-10 py-4 bg-white border-b border-gray-200">
       {/* Brand Logo */}
       <div className="flex items-center text-blue-600 font-bold text-2xl">
-        <span className="bg-blue-600 text-white rounded p-1 mr-2 text-lg">🛒</span> Brand
+        <img src={logo} alt="Brand Logo" className="w-30 h-30 mr-2" />
+       
       </div>
+      
 
       {/* Search Bar - Matching Figma blue border */}
       <div className="hidden md:flex flex-grow max-w-2xl mx-10">
