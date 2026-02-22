@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { productAPI } from '../services/api';
 import banner from '../assets/banner.png'; 
 import smartwatchImg from '../assets/8.svg';
 import laptopImg from '../assets/7.svg';
@@ -52,6 +53,29 @@ export default function Home() {
         'Machinery tools',
         'More category'
     ];
+    
+    // State for featured products
+    const [featuredProducts, setFeaturedProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // Fetch featured products on component mount
+    useEffect(() => {
+        const fetchFeaturedProducts = async () => {
+            try {
+                const response = await productAPI.getFeaturedProducts();
+                console.log('Featured products:', response.data);
+                setFeaturedProducts(response.data.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching featured products:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchFeaturedProducts();
+    }, []);
+
+    
 
     const deals = [
         {
@@ -97,18 +121,8 @@ export default function Home() {
         { name: 'Gaming set', price: 'USD 35', image: gamingHeadset }
     ];
 
-    const recommendedItems = [
-        { name: 'T-shirts with multiple colors, for men', price: '$10.30', image: tshirt },
-        { name: 'Jeans shorts for men blue color', price: '$10.30', image: jeansShorts },
-        { name: 'Brown winter coat medium size', price: '$12.50', image: winterCoat },
-        { name: 'Jeans bag for travel for men', price: '$34.00', image: jeansBag },
-        { name: 'Leather wallet', price: '$99.00', image: leatherWallet },
-        { name: 'Canon camera black, 100x zoom', price: '$9.99', image: canonCamera },
-        { name: 'Headset for gaming with mic', price: '$8.99', image: gamingHeadset2 },
-        { name: 'Smartwatch silver color modern', price: '$10.30', image: smartwatchSilver },
-        { name: 'Blue wallet for men leather material', price: '$10.30', image: blueWallet },
-        { name: 'Jeans bag for travel for men', price: '$80.95', image: blackKettle }
-    ];
+    // Use featured products for recommended items
+    const recommendedItems = featuredProducts.slice(0, 10);
 
     const services = [
         {
@@ -367,21 +381,29 @@ export default function Home() {
                     <h2 className="text-xl md:text-2xl font-bold text-gray-800">Recommended items</h2>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6">
-                    {recommendedItems.map((item, index) => (
-                        <div key={index} className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-                            <div className="h-32 md:h-48 bg-gray-100 flex items-center justify-center p-3 md:p-4">
-                                <img 
-                                    src={item.image} 
-                                    alt={item.name} 
-                                    className="max-w-full max-h-full object-contain"
-                                />
-                            </div>
-                            <div className="p-3 md:p-4">
-                                <p className="text-base md:text-lg font-semibold text-gray-800 mb-1 md:mb-2">{item.price}</p>
-                                <p className="text-xs md:text-sm text-gray-600 line-clamp-2">{item.name}</p>
-                            </div>
-                        </div>
-                    ))}
+                    {loading ? (
+    <div className="col-span-full text-center py-12">
+        <p className="text-gray-500">Loading products...</p>
+    </div>
+) : (
+    recommendedItems.map((item) => (
+        <div key={item._id} className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
+            <div className="h-32 md:h-48 bg-gray-100 flex items-center justify-center p-3 md:p-4">
+                <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className="max-w-full max-h-full object-contain"
+                />
+            </div>
+            <div className="p-3 md:p-4">
+                <p className="text-base md:text-lg font-semibold text-gray-800 mb-1 md:mb-2">
+                    ${item.price.toFixed(2)}
+                </p>
+                <p className="text-xs md:text-sm text-gray-600 line-clamp-2">{item.name}</p>
+            </div>
+        </div>
+    ))
+)}
                 </div>
             </div>
 
