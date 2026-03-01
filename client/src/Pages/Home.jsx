@@ -40,6 +40,7 @@ import serviceIndustry from '../assets/service-industry.png';
 import serviceCustomize from '../assets/service-customize.png';
 import serviceShipping from '../assets/service-shipping.png';
 import serviceMonitoring from '../assets/service-monitoring.png';
+import { newsletterAPI } from '../services/api';
 
 export default function Home() {
     const categories = [
@@ -57,6 +58,35 @@ export default function Home() {
     // State for featured products
     const [featuredProducts, setFeaturedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    
+
+// Inside your Home component, add state:
+const [email, setEmail] = useState('');
+const [subscribeMessage, setSubscribeMessage] = useState('');
+const [subscribeLoading, setSubscribeLoading] = useState(false);
+
+// Add subscribe handler:
+const handleNewsletterSubscribe = async (e) => {
+  e.preventDefault();
+  
+  if (!email.trim()) {
+    setSubscribeMessage('Please enter your email');
+    return;
+  }
+
+  try {
+    setSubscribeLoading(true);
+    const response = await newsletterAPI.subscribe(email);
+    setSubscribeMessage(response.data.message);
+    setEmail(''); // Clear input
+    setTimeout(() => setSubscribeMessage(''), 5000); // Clear message after 5s
+  } catch (error) {
+    setSubscribeMessage(error.response?.data?.message || 'Failed to subscribe');
+    setTimeout(() => setSubscribeMessage(''), 5000);
+  } finally {
+    setSubscribeLoading(false);
+  }
+};
 
     // Fetch featured products on component mount
     useEffect(() => {
@@ -457,29 +487,42 @@ export default function Home() {
 
             {/* Newsletter Subscription Section */}
             <div className="bg-gray-100 py-8 md:py-12">
-                <div className="max-w-7xl mx-auto px-4 md:px-8 text-center">
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 md:mb-3">Subscribe on our newsletter</h2>
-                    <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">Get daily news on upcoming offers from many suppliers all over the world</p>
-                    
-                    <div className="flex flex-col sm:flex-row justify-center gap-3 max-w-xl mx-auto">
-                        <div className="flex-1 relative">
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <input 
-                                type="email" 
-                                placeholder="Email" 
-                                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-md font-medium transition-colors">
-                            Subscribe
-                        </button>
-                    </div>
-                </div>
-            </div>
+  <div className="max-w-7xl mx-auto px-4 md:px-8 text-center">
+    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 md:mb-3">Subscribe on our newsletter</h2>
+    <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">Get daily news on upcoming offers from many suppliers all over the world</p>
+    
+    <form onSubmit={handleNewsletterSubscribe} className="flex flex-col sm:flex-row justify-center gap-3 max-w-xl mx-auto">
+      <div className="flex-1 relative">
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <input 
+          type="email" 
+          placeholder="Email" 
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={subscribeLoading}
+          className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+        />
+      </div>
+      <button 
+        type="submit"
+        disabled={subscribeLoading}
+        className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-md font-medium transition-colors disabled:bg-blue-300"
+      >
+        {subscribeLoading ? 'Subscribing...' : 'Subscribe'}
+      </button>
+    </form>
+    
+    {subscribeMessage && (
+      <p className={`mt-4 text-sm ${subscribeMessage.includes('Success') || subscribeMessage.includes('subscribed') ? 'text-green-600' : 'text-red-600'}`}>
+        {subscribeMessage}
+      </p>
+    )}
+  </div>
+</div>
 
             {/* Footer Section */}
             <footer className="bg-white border-t border-gray-200">

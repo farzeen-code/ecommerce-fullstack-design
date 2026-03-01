@@ -2,28 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { productAPI } from '../services/api';
 import { useCart } from '../context/CartContext';
+import { useSearchParams } from 'react-router-dom';
 
 const ProductListing = () => {
   const { addToCart } = useCart();
+  const [searchParams] = useSearchParams();
   
-  // State for products from backend
+  // Get search query from URL
+  const searchQuery = searchParams.get('search') || '';
+  const categoryFromURL = searchParams.get('category') || 'all';
+  
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromURL);
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortBy, setSortBy] = useState('featured');
   const [viewMode, setViewMode] = useState('grid');
   const [showFilters, setShowFilters] = useState(false);
 
-  // Fetch all products on mount
+  // Fetch products based on search query
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await productAPI.getAllProducts();
-        console.log('All products:', response.data);
+        let response;
+        
+        if (searchQuery) {
+          // Search with query
+          console.log('Searching for:', searchQuery);
+          response = await productAPI.searchProducts(searchQuery);
+          console.log('Search results:', response.data);
+        } else {
+          // Get all products
+          console.log('Getting all products');
+          response = await productAPI.getAllProducts();
+        }
+        
         setProducts(response.data.data);
         setLoading(false);
       } catch (error) {
@@ -33,7 +49,14 @@ const ProductListing = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [searchQuery]); // Re-fetch when search query changes
+
+  // Update category from URL
+  useEffect(() => {
+    if (categoryFromURL !== 'all') {
+      setSelectedCategory(categoryFromURL);
+    }
+  }, [categoryFromURL]);
 
   const categories = [
     { id: 'all', name: 'All Products', count: products.length },
@@ -46,10 +69,17 @@ const ProductListing = () => {
 
   const brands = [...new Set(products.map(p => p.brand).filter(Boolean))];
 
+  // Updated filter logic - don't override search results with category filter
   const filteredProducts = products.filter(product => {
-    if (selectedCategory !== 'all' && product.category !== selectedCategory) return false;
+    // Don't apply category filter if we're searching
+    if (!searchQuery && selectedCategory !== 'all' && product.category !== selectedCategory) return false;
+    
+    // Apply price filter
     if (product.price < priceRange[0] || product.price > priceRange[1]) return false;
+    
+    // Apply brand filter
     if (selectedBrands.length > 0 && !selectedBrands.includes(product.brand)) return false;
+    
     return true;
   });
 
@@ -65,6 +95,8 @@ const ProductListing = () => {
     addToCart(product, 1);
     alert(`${product.name} added to cart!`);
   };
+
+  // Rest of your component...
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -82,9 +114,77 @@ const ProductListing = () => {
         {/* Page Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">All Products</h1>
-            <p className="text-sm text-gray-500 mt-1">{filteredProducts.length} items found</p>
-          </div>
+    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+      {searchQuery ? `Search results for "${searchQuery}"` : 'All Products'}
+    </h1>
+    <p className="text-sm text-gray-500 mt-1">{filteredProducts.length} items found</p>
+  </div>
+  {/* Active Filters Tags */}
+{(searchQuery || selectedBrands.length > 0 || selectedCategory !== 'all' || priceRange[1] < 1000) && (
+  <div className="flex flex-wrap items-center gap-2 mb-4">
+    <span className="text-sm text-gray-600 font-medium">Active filters:</span>
+    
+    {searchQuery && (
+      <span className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+        Search: {searchQuery}
+        <button
+          onClick={() => window.location.href = '/products'}
+          className="hover:text-blue-900"
+        >
+          ×
+        </button>
+      </span>
+    )}
+    
+    {selectedCategory !== 'all' && (
+      <span className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+        {selectedCategory}
+        <button
+          onClick={() => setSelectedCategory('all')}
+          className="hover:text-blue-900"
+        >
+          ×
+        </button>
+      </span>
+    )}
+    
+    {selectedBrands.map(brand => (
+      <span key={brand} className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+        {brand}
+        <button
+          onClick={() => handleBrandToggle(brand)}
+          className="hover:text-blue-900"
+        >
+          ×
+        </button>
+      </span>
+    ))}
+    
+    {priceRange[1] < 1000 && (
+      <span className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+        Max: ${priceRange[1]}
+        <button
+          onClick={() => setPriceRange([0, 1000])}
+          className="hover:text-blue-900"
+        >
+          ×
+        </button>
+      </span>
+    )}
+    
+    <button
+      onClick={() => {
+        setSelectedCategory('all');
+        setPriceRange([0, 1000]);
+        setSelectedBrands([]);
+        window.location.href = '/products';
+      }}
+      className="text-sm text-blue-600 hover:text-blue-700 font-medium ml-2"
+    >
+      Clear all
+    </button>
+  </div>
+)}
 
           {/* Mobile Filter Button */}
           <button

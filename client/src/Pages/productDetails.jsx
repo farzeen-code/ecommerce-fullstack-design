@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from 'react-router-dom';
-import { productAPI } from '../services/api';
+import { productAPI, inquiryAPI } from '../services/api';
 import { useCart } from '../context/CartContext';
+import InquiryModal from '../components/InquiryModal';
 
 import thumb1 from "../assets/thumb1.png";
 import thumb2 from "../assets/thumb2.png";
@@ -18,6 +19,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState('');
   const [activeTab, setActiveTab] = useState('description');
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
 
   // Fetch product by ID
   useEffect(() => {
@@ -44,6 +46,22 @@ const ProductDetail = () => {
     if (product) {
       addToCart(product, 1);
       alert(`${product.name} added to cart!`);
+    }
+  };
+
+  const handleSendInquiry = async (formData) => {
+    try {
+      const response = await inquiryAPI.sendInquiry({
+        productId: product._id,
+        ...formData
+      });
+      
+      setIsInquiryModalOpen(false);
+      
+      // Show success message
+      alert(response.data.message);
+    } catch (error) {
+      alert(error.response?.data?.message || 'Failed to send inquiry');
     }
   };
 
@@ -226,7 +244,10 @@ const ProductDetail = () => {
                 Add to Cart
               </button>
 
-              <button className="w-full border border-blue-600 text-blue-600 py-2 md:py-3 rounded-lg hover:bg-blue-50 font-medium text-sm md:text-base transition">
+              <button 
+                onClick={() => setIsInquiryModalOpen(true)}
+                className="w-full border border-blue-600 text-blue-600 py-2 md:py-3 rounded-lg hover:bg-blue-50 font-medium text-sm md:text-base transition"
+              >
                 Send inquiry
               </button>
             </div>
@@ -370,6 +391,14 @@ const ProductDetail = () => {
         </div>
 
       </div>
+
+      {/* Inquiry Modal */}
+      <InquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => setIsInquiryModalOpen(false)}
+        product={product}
+        onSubmit={handleSendInquiry}
+      />
     </div>
   );
 };
