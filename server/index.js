@@ -23,6 +23,17 @@ const newsletterRoutes = require('./routes/newsletterRoutes');
 const inquiryRoutes = require('./routes/inquiryRoutes');
 const authRoutes = require('./routes/authRoutes');
 
+// Debug: Log route registration
+console.log('📍 Registering routes...');
+app.use('/api/products', productRoutes);
+console.log('✅ Product routes registered');
+app.use('/api/newsletter', newsletterRoutes);
+console.log('✅ Newsletter routes registered');
+app.use('/api/inquiries', inquiryRoutes);
+console.log('✅ Inquiry routes registered');
+app.use('/api/auth', authRoutes);
+console.log('✅ Auth routes registered');
+
 // Use Routes
 app.use('/api/products', productRoutes);
 app.use('/api/newsletter', newsletterRoutes);
