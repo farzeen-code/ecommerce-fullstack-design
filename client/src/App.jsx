@@ -5,6 +5,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx"; // ← ADD THIS
 import Home from "./Pages/Home.jsx";
 import ProductListing from "./Pages/productListing.jsx";
 import ProductDetail from "./Pages/productDetails.jsx";
@@ -16,7 +17,6 @@ import Register from "./Pages/Register.jsx";
 import AdminDashboard from "./Pages/Admin/AdminDashboard.jsx";
 import AdminProducts from "./Pages/Admin/AdminProducts.jsx";
 import ProductForm from "./Pages/Admin/ProductForm.jsx";
-
 import AdminInquiries from "./Pages/Admin/AdminInquiries.jsx";
 
 function App() {
@@ -24,59 +24,65 @@ function App() {
     <Router>
       <AuthProvider>
         <CartProvider>
-          <Navbar />
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
 
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<ProductListing />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <main className="flex-1">
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<ProductListing />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
 
-            {/* Protected Admin Routes */}
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute adminOnly={true}>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/products"
-              element={
-                <ProtectedRoute adminOnly={true}>
-                  <AdminProducts />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/products/new"
-              element={
-                <ProtectedRoute adminOnly={true}>
-                  <ProductForm />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/products/edit/:id"
-              element={
-                <ProtectedRoute adminOnly={true}>
-                  <ProductForm />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/inquiries"
-              element={
-                <ProtectedRoute adminOnly={true}>
-                  <AdminInquiries />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
+                {/* Protected Admin Routes */}
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/products"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminProducts />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/products/new"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <ProductForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/products/edit/:id"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <ProductForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/inquiries"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminInquiries />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </main>
+
+            <Footer /> {/* ← FOOTER SHOWS ON ALL PAGES */}
+          </div>
         </CartProvider>
       </AuthProvider>
     </Router>

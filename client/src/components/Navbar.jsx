@@ -116,21 +116,7 @@ const Navbar = () => {
             )}
 
 
-            {/* Message */}
-            <Link to="/messages" className="hidden md:flex flex-col items-center text-gray-700 hover:text-blue-600 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-              </svg>
-              <span className="text-xs mt-1">Message</span>
-            </Link>
-
-            {/* Orders */}
-            <Link to="/orders" className="hidden md:flex flex-col items-center text-gray-700 hover:text-blue-600 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-              </svg>
-              <span className="text-xs mt-1">Orders</span>
-            </Link>
+            
 
             {/* Cart */}
             <Link to="/cart" className="relative flex flex-col items-center text-gray-700 hover:text-blue-600 transition">
@@ -152,26 +138,7 @@ const Navbar = () => {
           <Link to="/products" className="text-gray-700 hover:text-blue-600 transition text-sm">
             All Products
           </Link>
-          <Link to="/hot-offers" className="text-gray-700 hover:text-blue-600 transition text-sm">
-            Hot offers
-          </Link>
-          <Link to="/gift-boxes" className="text-gray-700 hover:text-blue-600 transition text-sm">
-            Gift boxes
-          </Link>
-          <Link to="/projects" className="text-gray-700 hover:text-blue-600 transition text-sm">
-            Projects
-          </Link>
-          <Link to="/menu" className="text-gray-700 hover:text-blue-600 transition text-sm">
-            Menu Item
-          </Link>
-          <div className="relative group">
-            <button className="text-gray-700 hover:text-blue-600 transition text-sm flex items-center gap-1">
-              Help
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </button>
-          </div>
+          
         </div>
       </div>
     </nav>
