@@ -23,7 +23,12 @@ const newsletterRoutes = require('./routes/newsletterRoutes');
 const inquiryRoutes = require('./routes/inquiryRoutes');
 const authRoutes = require('./routes/authRoutes');
 
-// Debug: Log route registration
+// Test Route - MOVE THIS BEFORE OTHER ROUTES
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to E-commerce API' });
+});
+
+// Use Routes - ONLY ONCE!
 console.log('📍 Registering routes...');
 app.use('/api/products', productRoutes);
 console.log('✅ Product routes registered');
@@ -34,20 +39,9 @@ console.log('✅ Inquiry routes registered');
 app.use('/api/auth', authRoutes);
 console.log('✅ Auth routes registered');
 
-// Use Routes
-app.use('/api/products', productRoutes);
-app.use('/api/newsletter', newsletterRoutes);
-app.use('/api/inquiries', inquiryRoutes);
-app.use('/api/auth', authRoutes);
-
-// Test Route
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to E-commerce API' });
-});
-
 // MongoDB Connection
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI; // ✅ FIXED
+const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose
   .connect(MONGODB_URI)
