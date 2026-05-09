@@ -1,10 +1,10 @@
-# Ecommerce Fullstack Design
+Ecommerce Fullstack Design
 
 A full-stack eCommerce web application built as part of an internship project. Features a React frontend, Node.js/Express REST API, MongoDB database, and JWT-based authentication with role-based access control.
 
 ---
 
-## Table of Contents
+Table of Contents
 
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
@@ -16,7 +16,7 @@ A full-stack eCommerce web application built as part of an internship project. F
 
 ---
 
-## Tech Stack
+Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -29,7 +29,7 @@ A full-stack eCommerce web application built as part of an internship project. F
 
 ---
 
-## Project Structure
+Project Structure
 
 ```
 ecommerce-fullstack-design/
@@ -71,21 +71,21 @@ ecommerce-fullstack-design/
 
 ---
 
-## Getting Started
+Getting Started
 
-### Prerequisites
+Prerequisites
 
 - Node.js v18+
 - MongoDB (local or Atlas)
 
-### 1. Clone the Repository
+1. Clone the Repository
 
 ```bash
 git clone https://github.com/farzeen-code/ecommerce-fullstack-design.git
 cd ecommerce-fullstack-design
 ```
 
-### 2. Backend Setup
+2. Backend Setup
 
 ```bash
 cd server
@@ -95,7 +95,7 @@ npm run dev
 
 Server runs on `http://localhost:5000`.
 
-### 3. Frontend Setup
+3. Frontend Setup
 
 ```bash
 cd client
@@ -105,7 +105,7 @@ npm run dev
 
 Client runs on `http://localhost:5173`.
 
-### 4. Seed the Database (Optional)
+4. Seed the Database (Optional)
 
 ```bash
 # Seed sample products
@@ -117,7 +117,7 @@ node server/createAdmin.js
 
 ---
 
-## Environment Variables
+Environment Variables
 
 Create a `.env` file inside `server/`:
 
@@ -130,9 +130,9 @@ CLIENT_URL=http://localhost:5173
 
 ---
 
-## API Reference
+API Reference
 
-### Auth — `/api/auth`
+Auth — `/api/auth`
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
@@ -140,7 +140,7 @@ CLIENT_URL=http://localhost:5173
 | POST | `/login` | Login, returns JWT | No |
 | GET | `/me` | Get current user | Yes |
 
-### Products — `/api/products`
+Products — `/api/products`
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
@@ -150,13 +150,13 @@ CLIENT_URL=http://localhost:5173
 | PUT | `/:id` | Update product | Admin |
 | DELETE | `/:id` | Delete product | Admin |
 
-### Newsletter — `/api/newsletter`
+Newsletter — `/api/newsletter`
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
 | POST | `/subscribe` | Subscribe with email | No |
 
-### Inquiries — `/api/inquiries`
+Inquiries — `/api/inquiries`
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
@@ -165,7 +165,7 @@ CLIENT_URL=http://localhost:5173
 
 ---
 
-## Routes
+Routes
 
 | Path | Page | Access |
 |---|---|---|
@@ -210,6 +210,6 @@ Update `CLIENT_URL` in the server environment to match the deployed frontend URL
 
 
 
-## Author
+Author
 
 Farzeen — [github.com/farzeen-code](https://github.com/farzeen-code)
