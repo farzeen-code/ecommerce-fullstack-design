@@ -18,6 +18,27 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+// Seed sample products
+exports.seedProducts = async (req, res) => {
+  try {
+    const seedData = require('../seedData');
+    await Product.deleteMany();
+    const created = await Product.insertMany(seedData);
+    res.status(200).json({
+      success: true,
+      message: `Successfully seeded ${created.length} sample products`,
+      count: created.length,
+      data: created
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to seed products',
+      error: error.message
+    });
+  }
+};
+
 // Get single product by ID
 exports.getProductById = async (req, res) => {
   try {

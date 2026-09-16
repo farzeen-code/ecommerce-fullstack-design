@@ -53,8 +53,25 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose
   .connect(MONGODB_URI)
-  .then(() => {
+  .then(async () => {
     console.log('✅ Connected to MongoDB');
+
+    // Auto-seed initial catalog if empty
+    try {
+      const Product = require('./models/Product');
+      const count = await Product.countDocuments();
+      if (count === 0) {
+        console.log('🌱 Database is empty. Auto-seeding initial product catalog...');
+        const seedProducts = require('./seedData');
+        await Product.insertMany(seedProducts);
+        console.log(`✅ Successfully seeded ${seedProducts.length} products`);
+      } else {
+        console.log(`📦 Database loaded with ${count} existing products`);
+      }
+    } catch (seedErr) {
+      console.error('⚠️ Auto-seed check notice:', seedErr.message);
+    }
+
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });

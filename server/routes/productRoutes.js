@@ -7,8 +7,13 @@ const {
   updateProduct,
   deleteProduct,
   searchProducts,
-  getFeaturedProducts
+  getFeaturedProducts,
+  seedProducts
 } = require('../controllers/productController');
+
+// Seed route (must come before /:id)
+router.get('/seed', seedProducts);
+router.post('/seed', seedProducts);
 
 // Search and featured routes (must come before /:id)
 router.get('/search', searchProducts);
