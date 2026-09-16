@@ -43,18 +43,18 @@ const Navbar = () => {
           </Link>
 
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className="flex-1 max-w-2xl flex gap-2">
+          <form onSubmit={handleSearch} className="flex-1 max-w-2xl flex items-stretch border-2 border-blue-500 rounded-lg overflow-hidden bg-white focus-within:ring-2 focus-within:ring-blue-400">
             <input
               type="text"
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 border-2 border-blue-500 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 bg-transparent focus:outline-none min-w-0"
             />
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="hidden md:block border-2 border-blue-500 border-l-0 px-4 py-2 bg-white focus:outline-none"
+              className="hidden md:block border-l border-gray-300 px-3 py-2 text-sm text-gray-700 bg-white focus:outline-none cursor-pointer"
             >
               <option value="all">All category</option>
               <option value="electronics">Electronics</option>
@@ -65,7 +65,7 @@ const Navbar = () => {
             </select>
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-r-lg font-medium transition"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 text-sm font-medium transition shrink-0"
             >
               Search
             </button>

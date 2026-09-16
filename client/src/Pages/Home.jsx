@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { productAPI } from '../services/api';
-import banner from '../assets/banner.png'; 
+import { productAPI } from '../services/api'; 
 import smartwatchImg from '../assets/8.svg';
 import laptopImg from '../assets/7.svg';
 import cameraImg from '../assets/6.svg';
@@ -22,18 +21,6 @@ import cameraCanon from '../assets/cameraCanon.png';
 import headphonesWhite from '../assets/headphonesWhite.png';
 import electricKettle from '../assets/electricKettle.png';
 import gamingHeadset from '../assets/gamingHeadset.png';
-
-// Recommended Items images (10 products)
-import tshirt from '../assets/tshirt.png';
-import jeansShorts from '../assets/jeans-shorts.png';
-import winterCoat from '../assets/winter-coat.png';
-import jeansBag from '../assets/jeans-bag.png';
-import leatherWallet from '../assets/leather-wallet.png';
-import canonCamera from '../assets/canon-camera.png';
-import gamingHeadset2 from '../assets/gamingHeadset.png';
-import smartwatchSilver from '../assets/8.svg';
-import blueWallet from '../assets/blue-wallet.png';
-import blackKettle from '../assets/electricKettle.png';
 
 // Extra Services images (4 services)
 import serviceIndustry from '../assets/service-industry.png';
@@ -195,7 +182,7 @@ const handleNewsletterSubscribe = async (e) => {
             {/* Hero Banner Section */}
             <div className="p-4 md:p-8">
                 <div className="max-w-7xl mx-auto">
-                    <div className="flex flex-col lg:flex-row gap-0 border-2 lg:border-4 border-blue-500 rounded-lg overflow-hidden bg-white shadow-lg">
+                    <div className="flex flex-col lg:flex-row gap-0 border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
                         {/* Left Sidebar - Categories - Hidden on mobile */}
                         <div className="hidden lg:block w-64 bg-gray-50 border-r border-gray-200">
                             <div className="p-4">

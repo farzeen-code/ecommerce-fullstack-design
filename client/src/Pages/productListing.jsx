@@ -53,9 +53,7 @@ const ProductListing = () => {
 
   // Update category from URL
   useEffect(() => {
-    if (categoryFromURL !== 'all') {
-      setSelectedCategory(categoryFromURL);
-    }
+    setSelectedCategory(categoryFromURL);
   }, [categoryFromURL]);
 
   const categories = [
@@ -69,10 +67,10 @@ const ProductListing = () => {
 
   const brands = [...new Set(products.map(p => p.brand).filter(Boolean))];
 
-  // Updated filter logic - don't override search results with category filter
+  // Apply filters
   const filteredProducts = products.filter(product => {
-    // Don't apply category filter if we're searching
-    if (!searchQuery && selectedCategory !== 'all' && product.category !== selectedCategory) return false;
+    // Apply category filter
+    if (selectedCategory !== 'all' && product.category !== selectedCategory) return false;
     
     // Apply price filter
     if (product.price < priceRange[0] || product.price > priceRange[1]) return false;

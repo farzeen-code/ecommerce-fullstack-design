@@ -5,10 +5,6 @@ const AdminInquiries = () => {
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchInquiries();
-  }, []);
-
   const fetchInquiries = async () => {
     try {
       const response = await inquiryAPI.getAllInquiries();
@@ -19,6 +15,10 @@ const AdminInquiries = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchInquiries();
+  }, []);
 
   const handleStatusChange = async (id, newStatus) => {
     try {

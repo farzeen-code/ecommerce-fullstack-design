@@ -16,7 +16,7 @@ const Footer = () => {
               </div>
               <span className="text-xl font-bold text-gray-800">Brand</span>
             </div>
-            <p className="text-sm text-gray-600 mb-4">Best information about the company gies here but now lorem ipsum is</p>
+            <p className="text-sm text-gray-600 mb-4">Best information about the company goes here but now lorem ipsum is</p>
             
             {/* Social Icons */}
             <div className="flex gap-2">
@@ -63,10 +63,10 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-gray-800 mb-3 md:mb-4 text-sm md:text-base">Partnership</h3>
             <ul className="space-y-2 text-xs md:text-sm text-gray-600">
-              <li><Link to="/about" className="hover:text-blue-500">About Us</Link></li>
-              <li><Link to="/stores" className="hover:text-blue-500">Find store</Link></li>
-              <li><Link to="/products" className="hover:text-blue-500">Categories</Link></li>
-              <li><Link to="/blog" className="hover:text-blue-500">Blogs</Link></li>
+              <li><Link to="/about" className="hover:text-blue-500">Partner Program</Link></li>
+              <li><Link to="/stores" className="hover:text-blue-500">Affiliate Hub</Link></li>
+              <li><Link to="/products" className="hover:text-blue-500">Suppliers</Link></li>
+              <li><Link to="/blog" className="hover:text-blue-500">Collaboration</Link></li>
             </ul>
           </div>
 
